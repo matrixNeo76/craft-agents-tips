@@ -20,6 +20,7 @@ Benvenuto nel sistema di help contestuale per **Craft Agents OSS**. Questo siste
 | 🔒 [Security Guide](security-guide.md) | Credenziali, permessi, MCP env isolation |
 | 🏷️ [Labels Guide](labels-guide.md) | Etichette, colori, auto-apply, gerarchie |
 | 📂 [Sessions Guide](sessions-guide.md) | Organizzare inbox, flags, archivio, ricerca |
+| ❓ [FAQ](faq.md) | Domande frequenti rapide |
 | 🛠️ [Development Guide](development-guide.md) | Build, dev workflow, contribuire |
 
 ## Mappa Concettuale

@@ -26,7 +26,11 @@
 
 La `source-guide.md` contiene istruzioni per integrare il repo come Source in Craft Agents.
 
+## Additional
+
+- [FAQ](help/faq.md): 14 domande frequenti rapide
+
 ## Stats
 
-- 14 guide, ~200 domande, ~115 esempi con codice, 5 diagrammi Mermaid
+- 15 guide, ~175 domande, ~140 esempi con codice, 5 diagrammi Mermaid
 - Licenza: Apache 2.0

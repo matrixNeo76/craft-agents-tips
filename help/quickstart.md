@@ -21,6 +21,8 @@ Guida rapida per installare, configurare e fare la prima sessione con Craft Agen
 
 ## Come installo Craft Agents?
 
+Guarda la [demo video](https://www.youtube.com/watch?v=xQouiAIilvU) per capire cosa fa Craft Agents prima di installarlo.
+
 ### Installazione One-Line (Raccomandata)
 
 **macOS / Linux:**

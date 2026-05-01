@@ -155,6 +155,23 @@ Vedi la [Server Setup Guide](server-setup.md) per configurazione completa.
 - Usa chiavi con **scope limitato** (solo quello che serve)
 - Craft Agents le salva cifrate in `credentials.enc` — non serve inserirle ogni volta
 
+### Esempio: configurare in modo sicuro
+```bash
+# Invece di scrivere la chiave nei file:
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# Poi avvia l'app
+bun run electron:start
+# La chiave è solo in memoria, non su disco
+```
+
+### Esempio: pulire credenziali esistenti
+```bash
+# Rimuovi tutte le credenziali salvate (OAuth, API keys)
+rm ~/.craft-agent/credentials.enc
+# Craft Agents le rigenererà al prossimo login
+```
+
 ---
 
 ## Cosa NON fare

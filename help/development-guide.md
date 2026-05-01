@@ -92,11 +92,27 @@ Il typecheck controlla tutta la codebase TypeScript per errori di tipo.
 
 Vedi [CONTRIBUTING.md](https://github.com/lukilabs/craft-agents-oss/blob/main/CONTRIBUTING.md):
 
-1. Fai un fork del repo
-2. Crea un branch: `feature/nome-feature` o `fix/nome-fix`
-3. Fai le modifiche
-4. Assicurati che `typecheck:all` passi
-5. Crea una Pull Request
+1. **Fork** il repo su GitHub
+2. **Clona** il fork in locale
+3. **Crea un branch**:
+   - `feature/nome-feature` per nuove funzionalità
+   - `fix/nome-fix` per bug fix
+   - `docs/aggiornamento` per documentazione
+4. **Fai le modifiche** e testa con `bun run typecheck:all`
+5. **Crea una Pull Request** descrivendo cosa hai fatto
+
+**Checklist PR:**
+- [ ] Typecheck passa (`bun run typecheck:all`)
+- [ ] Build passa (`bun run electron:build`)
+- [ ] Hai testato le modifiche
+- [ ] Hai aggiornato la documentazione necessaria
+- [ ] Branch name segue le convenzioni
+
+**Cosa cercano i maintainer:**
+- Commit piccoli e focalizzati
+- Messaggi chiari (meglio se conventional commits)
+- Test associati alle modifiche
+- Documentazione aggiornata
 
 ---
 

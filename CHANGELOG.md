@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0] — 2026-05-01
+
+### Added
+- MF-9: `help/faq.md` — 14 domande frequenti rapide
+- MF-11: Video demo reference in quickstart.md
+
+### Changed
+- `help/sessions-guide.md`: ampliata con 5 pattern pratici, 3 nuovi esempi
+- `help/security-guide.md`: aggiunti 2 esempi pratici (env vars, cleanup)
+- `help/development-guide.md`: aggiunta checklist PR e dettagli contribuzione
+- `help/README.md`: aggiornato indice con FAQ
+- `llms.txt`: aggiornato con FAQ
+
 ## [2.0.0] — 2026-05-01
 
 ### Added
