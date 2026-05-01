@@ -71,12 +71,12 @@ Leggi direttamente i file nella directory `help/`. Ogni guida ha un indice all'i
 
 | Metrica | Valore |
 |---------|--------|
-| Guide | 8 |
-| Domande | 103 |
-| Esempi con codice | 69 |
+| Guide | 14 |
+| Domande | ~200 |
+| Esempi con codice | ~115 |
 | Diagrammi Mermaid | 5 |
 | Trigger skill | 80+ |
-| Problemi risolti | 16 |
+| Problemi risolti | 20+ |
 
 ---
 

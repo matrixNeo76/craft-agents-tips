@@ -281,6 +281,47 @@ Questo è possibile perché Craft Agents è costruito con principi **agent-nativ
 
 ---
 
+## Large Response Handling: compressione automatica
+
+Quando le risposte dei tool superano ~60KB, vengono **automaticamente riassunte** usando un modello veloce (Claude Haiku).
+
+- L'`_intent` field nei tool MCP preserva il focus della summarization
+- Le risposte rimangono utilizzabili dall'agente senza esplodere il contesto
+- **Trasparente**: non devi fare nulla
+
+**Quando può servire saperlo:**
+- Se lavori con file molto grandi (log, dataset), l'agente vedrà un riassunto, non il file intero
+- Per dati critici che vuoi interi, salva su file e leggili separatamente
+- La compressione è automatica e non disattivabile
+
+---
+
+## Docker: avviare il server in container
+
+```bash
+# Build dell'immagine
+docker build -f Dockerfile.server -t craft-agents-server .
+
+# Avvio
+CRAFT_SERVER_TOKEN=$(openssl rand -hex 32)
+docker run -d \
+  -p 9100:9100 \
+  -e CRAFT_SERVER_TOKEN=$CRAFT_SERVER_TOKEN \
+  -e CRAFT_RPC_HOST=0.0.0.0 \
+  -v craft-data:/root/.craft-agent \
+  craft-agents-server
+
+echo "URL: ws://localhost:9100"
+echo "Token: $CRAFT_SERVER_TOKEN"
+```
+
+**Tips Docker:**
+- Senza `-v craft-data:/root/.craft-agent`, sessioni e credenziali si perdono a ogni restart
+- Per esporre su Internet, usa **sempre** TLS o un reverse proxy
+- Vedi la [guida server setup](help/server-setup.md) per TLS e reverse proxy
+
+---
+
 ## Agent-Native Philosophy
 
 Craft Agents è progettato per essere usato **da agenti AI**, non solo da umani:

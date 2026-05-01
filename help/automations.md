@@ -45,13 +45,48 @@ flowchart LR
 
 ## Quali eventi sono supportati?
 
+Craft Agents supporta **12+ eventi** per triggerare automazioni:
+
+### Eventi di Sessione
+| Evento | Descrizione | Quando usarlo |
+|--------|-------------|---------------|
+| `SessionStart` | Nuova sessione creata | Setup automatico, benvenuto, template |
+| `SessionEnd` | Sessione terminata | Riassunto, salvataggio, cleanup |
+| `SessionStatusChange` | Stato cambiato (todo → in_progress → done) | Notifiche su avanzamento |
+
+### Eventi di Label
 | Evento | Descrizione |
 |--------|-------------|
-| `SchedulerTick` | Attivato a intervalli cron |
-| `LabelAdd` | Un label viene aggiunto a una sessione |
-| `LabelRemove` | Un label viene rimosso da una sessione |
+| `LabelAdd` | Label aggiunto a una sessione |
+| `LabelRemove` | Label rimosso da una sessione |
+
+### Eventi di Modifica
+| Evento | Descrizione |
+|--------|-------------|
 | `PermissionModeChange` | Cambio del permission mode |
-| `FlagChange` | Una sessione viene flaggata/deflaggata |
+| `FlagChange` | Sessione flaggata/deflaggata |
+
+### Eventi di Tool
+| Evento | Descrizione | Quando usarlo |
+|--------|-------------|---------------|
+| `PreToolUse` | **Prima** che un tool venga eseguito | Governance, sicurezza, logging |
+| `PostToolUse` | **Dopo** che un tool è stato eseguito | Audit, notifiche su azioni |
+
+### Eventi Temporizzati
+| Evento | Descrizione |
+|--------|-------------|
+| `SchedulerTick` | Attivato a intervalli cron (minimo: 1 minuto) |
+
+### Quando usare ogni evento
+
+| Scenario | Evento | Esempio |
+|----------|--------|--------|
+| Reminder giornaliero | `SchedulerTick` | Ogni mattina alle 9, controlla issue |
+| Notifica urgenza | `LabelAdd` | Se label=urgente, notifyami |
+| Fine sessione | `SessionEnd` | Riassumi cosa è stato fatto |
+| Cambio stato | `SessionStatusChange` | Avvisa quando in review |
+| Policy sicurezza | `PreToolUse` | Blocca comandi pericolosi |
+| Audit | `PostToolUse` | Logga ogni tool eseguito |
 | `SessionStatusChange` | Stato sessione cambia (todo → in_progress → done) |
 | `SessionStart` | Una nuova sessione viene creata |
 | `SessionEnd` | Una sessione termina |
@@ -200,48 +235,101 @@ Nei prompt delle automazioni, queste variabili vengono espanse automaticamente:
 
 ---
 
-## Best practices per le automazioni
+## Come gestire errori nelle automazioni?
 
-### DO
-- **Usa label descrittivi** sulle sessioni automatizzate (`Scheduled`, `auto-*`)
-- **Timezone esplicito** per SchedulerTick — evita ambiguità
-- **Regex mirate** per LabelAdd — troppo generiche causano falsi positivi
-- **Prompt concisi** — l'azione deve essere focalizzata
+Le automazioni creano **nuove sessioni**. Se un'azione fallisce:
 
-### DON'T
-- **Non creare loop**: un'azione che aggiunge un label che triggera un'altra automazione
-- **Non esagerare con la frequenza**: SchedulerTick ogni minuto non è necessario
-- **Non dimenticare che** le automazioni creano **nuove sessioni** — troppe sessioni automatiche intasano l'inbox
+1. La sessione mostra l'errore (come qualsiasi chat)
+2. Non c'è un meccanismo di retry automatico
+3. Le sessioni fallite rimangono visibili nell'inbox
 
-### Pattern consigliati
+**Best practices per errori:**
+- Dai prompt **robusti** che gestiscono casistiche limite
+- Verifica che i sources menzionati siano attivi (es. `@github` deve esistere)
+- Includi nel prompt istruzioni su cosa fare se qualcosa non è disponibile
+- Per task critici, programma esecuzioni più frequenti (così il prossimo tick recupera)
 
-**Weekly review:**
+## Come monitorare le automazioni?
+
+Tutte le sessioni create dalle automazioni sono visibili nell'inbox:
+
+- Hanno label automatici (es. `Scheduled`, `daily-briefing`)
+- Puoi filtrarle per label nella sidebar
+- Puoi controllare la cronologia delle esecuzioni
+- Le sessioni fallite mostrano l'errore come ultimo messaggio
+
+**Pattern: auto-monitoring**
+Crea un'automazione che controlla le altre:
 ```json
 {
-  "cron": "0 17 * * 5",
-  "timezone": "Europe/Rome",
-  "labels": ["Scheduled", "weekly-review"],
-  "actions": [
+  "SchedulerTick": [
     {
-      "type": "prompt",
-      "prompt": "Riassumi le sessioni completate questa settimana. Evidenzia decisioni importanti e task ancora aperti."
+      "cron": "0 9 * * 1",
+      "timezone": "Europe/Rome",
+      "labels": ["Scheduled", "weekly-audit"],
+      "actions": [
+        {
+          "type": "prompt",
+          "prompt": "Controlla le sessioni con label 'Scheduled' dell'ultima settimana. Ce ne sono di fallite o incomplete?"
+        }
+      ]
     }
   ]
 }
 ```
 
-**Auto-label su sessione urgente:**
+## Pattern avanzati di automazioni
+
+### Pattern: notifica condizionale
+Esegui un controllo e poi notifica solo se serve:
+```json
+{
+  {
+    "cron": "0 9,15 * * 1-5",
+    "timezone": "Europe/Rome",
+    "labels": ["Scheduled", "issue-check"],
+    "actions": [
+      {
+        "type": "prompt",
+        "prompt": "@github Cerca issue senza risposta da più di 3 giorni. Se ce ne sono, riassumile."
+      }
+    ]
+  }
+}
+```
+L'agente risponderà solo se trova issue — altrimenti la sessione rimane breve.
+
+### Pattern: escalation automatica
 ```json
 {
   "LabelAdd": [
     {
-      "matcher": "bloccante|blocking",
+      "matcher": "bloccante|p1|critical",
       "actions": [
         {
           "type": "prompt",
-          "prompt": "La sessione $CRAFT_SESSION_ID è bloccante. Riassumi il problema e suggerisci il prossimo passo."
+          "prompt": "La sessione ha un problema critico. Riassumi: cosa serve per sbloccarla?"
         }
       ]
+    }
+  ]
+}
+```
+
+### Pattern: report periodico strutturato
+```json
+{
+  "cron": "0 18 * * 5",
+  "timezone": "Europe/Rome",
+  "labels": ["Scheduled", "weekly-report"],
+  "actions": [
+    {
+      "type": "prompt",
+      "prompt": "Genera un report settimanale:
+1. Sessioni completate: quante e cosa?
+2. Decisioni importanti prese
+3. Task ancora aperti
+4. Prossimi passi"
     }
   ]
 }

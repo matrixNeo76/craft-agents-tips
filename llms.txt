@@ -13,11 +13,20 @@
 - [Troubleshooting](help/troubleshooting.md): SDK path resolution error, OAuth scaduto, MCP locale non connette, env var filtrate, WebSocket/TLS errors, AgentEvent type mismatches, esbuild failure
 - [Architecture Overview](help/architecture-overview.md): Struttura monorepo (apps/, packages/), session loop, Claude Agent SDK vs Pi SDK, permessi, crittografia AES-256-GCM, thin-client mode (WebSocket RPC), docs system built-in
 
+## Additional Guides
+
+- [CLI Guide](help/cli-guide.md): Riferimento completo craft-cli (comandi, scripting, TLS, validate-server, CI/CD)
+- [Server Setup](help/server-setup.md): Docker, TLS, reverse proxy, env vars, produzione
+- [Security Guide](help/security-guide.md): Credenziali AES-256-GCM, permission modes, MCP env isolation, best practices
+- [Sessions Guide](help/sessions-guide.md): Organizzare inbox, flags, archivio, ricerca, persistenza
+- [Labels Guide](help/labels-guide.md): Etichette, colori, auto-apply con regex, gerarchie
+- [Development Guide](help/development-guide.md): Build, hot reload, typecheck, contribuire
+
 ## Source Guide
 
 La `source-guide.md` contiene istruzioni per integrare il repo come Source in Craft Agents.
 
 ## Stats
 
-- 8 guide, 103 domande, 69 esempi con codice
+- 14 guide, ~200 domande, ~115 esempi con codice, 5 diagrammi Mermaid
 - Licenza: Apache 2.0

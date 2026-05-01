@@ -149,6 +149,110 @@ L'agente:
 
 ---
 
+## Come connetto Microsoft (Outlook, Calendar, Teams)?
+
+**Prompt all'agente:**
+```
+Collega il mio Outlook
+```
+
+L'agente guida nel:
+1. Registrare un'app in [Microsoft Entra](https://entra.microsoft.com)
+2. Configurare i permessi API necessari (Mail.Read, Calendars.Read, Files.Read)
+3. Ottenere Client ID e Tenant ID
+4. Eseguire il login Microsoft via browser
+5. Attivare il source
+
+**Configurazione manuale (se preferisci):**
+```json
+{
+  "api": {
+    "microsoftService": "outlook",
+    "microsoftOAuthClientId": "tuo-client-id",
+    "microsoftOAuthTenantId": "consumers"
+  }
+}
+```
+
+**Servizi Microsoft supportati:**
+| Servizio | Valore `microsoftService` | Cosa permette |
+|----------|--------------------------|---------------|
+| Outlook | `outlook` | Leggere e inviare email |
+| Calendar | `calendar` | Leggere e gestire eventi |
+| OneDrive | `onedrive` | Leggere file e documenti |
+| Teams | `teams` | Leggere messaggi e canali |
+| SharePoint | `sharepoint` | Accedere a siti e documenti |
+
+---
+
+## Come connetto Slack?
+
+**Prompt all'agente:**
+```
+Collega Slack al mio workspace
+```
+
+L'agente:
+1. Guida nella creazione di un'app Slack su [api.slack.com](https://api.slack.com/apps)
+2. Configura gli OAuth scopes necessari
+3. Ottiene Client ID e Client Secret
+4. Avvia il flusso OAuth via browser
+5. Attiva il source
+
+**Cosa puoi fare con Slack connesso:**
+- Leggere messaggi dai canali
+- Cercare conversazioni
+- Ottenere informazioni su utenti e canali
+- Inviare notifiche
+- (Dipende dagli scope concessi)
+
+---
+
+## Come gestire più sources?
+
+Puoi connettere **quanti sources vuoi** contemporaneamente.
+
+**Esempi di configurazione multi-source:**
+- GitHub (MCP) + Gmail (API) + Obsidian (locale)
+- Linear (MCP) + Slack (API) + Drive (API)
+- Più MCP server (GitHub + Notion + Craft)
+
+**@mention per source specifico:**
+```
+@github Cerca issue aperte assegnate a me
+@gmail C'è qualche email urgente?
+```
+
+**Tips per multi-source:**
+- Ogni source ha i propri strumenti (tools)
+- Puoi menzionare più sources nella stessa frase
+- I sources NON condividono dati tra loro — l'agente orchestra le chiamate
+- Troppi sources possono rallentare il contesto — abilita solo quelli che servi
+
+---
+
+## Come rimuovere o disabilitare un source?
+
+**Disabilitare temporaneamente:**
+```
+Disabilita il source Gmail
+```
+Il source rimane configurato ma non attivo. Puoi riabilitarlo dopo.
+
+**Rimuovere permanentemente:**
+```
+Rimuovi il source Gmail
+```
+La configurazione e le credenziali vengono eliminate.
+
+**Effetti:**
+| Azione | Configurazione | Credenziali | Tools disponibili |
+|--------|---------------|-------------|-------------------|
+| Disabilita | ✅ Conservata | ✅ Conservate | ❌ Non disponibili |
+| Rimuovi | ❌ Eliminata | ❌ Eliminate | ❌ Non disponibili |
+
+---
+
 ## Come configuro Google OAuth?
 
 ### 1. Crea un Google Cloud Project

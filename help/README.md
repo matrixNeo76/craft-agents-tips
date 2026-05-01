@@ -8,13 +8,19 @@ Benvenuto nel sistema di help contestuale per **Craft Agents OSS**. Questo siste
 
 | Guida | Descrizione |
 |-------|-------------|
-| [Quickstart](quickstart.md) | Primi passi: installazione, provider LLM, primo workspace, prima sessione |
-| [Sources Guide](sources-guide.md) | Connettere MCP server, API REST, filesystem locali |
-| [Skills Guide](skills-guide.md) | Creare, importare e gestire skills per estendere l'agente |
-| [Automations Guide](automations.md) | Automazioni, scheduler, event-driven workflow |
-| [Tips & Tricks](tips-and-tricks.md) | Scorciatoie, produttività, trucchi avanzati |
-| [Troubleshooting](troubleshooting.md) | Problemi comuni, errori, soluzioni |
-| [Architecture Overview](architecture-overview.md) | Come funziona Craft Agents dentro |
+| 🚀 [Quickstart](quickstart.md) | Primi passi: installazione, provider LLM, primo workspace, prima sessione |
+| 🔌 [Sources Guide](sources-guide.md) | MCP server, API REST, Google/Microsoft/Slack OAuth, filesystem locali |
+| 🛠️ [Skills Guide](skills-guide.md) | Creare, importare e gestire skills per estendere l'agente |
+| ⏰ [Automations Guide](automations.md) | Automazioni, 12+ eventi, scheduler, governance, error handling |
+| ⚡ [Tips & Tricks](tips-and-tricks.md) | Scorciatoie, produttività, trucchi avanzati, Docker, performance |
+| 🩺 [Troubleshooting](troubleshooting.md) | Problemi comuni, errori, soluzioni (CLI, Docker, dev) |
+| 🏗️ [Architecture Overview](architecture-overview.md) | Come funziona Craft Agents dentro, diagrammi |
+| 💻 [CLI Guide](cli-guide.md) | Riferimento completo craft-cli per scripting e CI/CD |
+| 🖥️ [Server Setup](server-setup.md) | Docker, TLS, reverse proxy, produzione |
+| 🔒 [Security Guide](security-guide.md) | Credenziali, permessi, MCP env isolation |
+| 🏷️ [Labels Guide](labels-guide.md) | Etichette, colori, auto-apply, gerarchie |
+| 📂 [Sessions Guide](sessions-guide.md) | Organizzare inbox, flags, archivio, ricerca |
+| 🛠️ [Development Guide](development-guide.md) | Build, dev workflow, contribuire |
 
 ## Mappa Concettuale
 
@@ -50,3 +56,8 @@ Benvenuto nel sistema di help contestuale per **Craft Agents OSS**. Questo siste
 3. **Cerchi un trucco?** Vai a [Tips & Tricks](tips-and-tricks.md)
 4. **Hai un errore?** Vai a [Troubleshooting](troubleshooting.md)
 5. **Vuoi capire l'architettura?** Vai a [Architecture Overview](architecture-overview.md)
+6. **Usi la CLI?** Vai a [CLI Guide](cli-guide.md)
+7. **Setup server/Docker?** Vai a [Server Setup](server-setup.md)
+8. **Label o auto-apply?** Vai a [Labels Guide](labels-guide.md)
+9. **Organizzare sessioni?** Vai a [Sessions Guide](sessions-guide.md)
+10. **Sviluppo/contribuire?** Vai a [Development Guide](development-guide.md)

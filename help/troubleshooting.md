@@ -12,6 +12,7 @@ Guida diagnostica per risolvere i problemi più frequenti con Craft Agents OSS.
 - [SDK Path Resolution Error: "The path argument must be of type string"](#sdk-path-resolution-error-the-path-argument-must-be-of-type-string)
 - [Errore: "Cannot find module" o build fallita](#errore-cannot-find-module-o-build-fallita)
 - [App non si avvia su Windows/macOS](#app-non-si-avvia-su-windowsmacos)
+- [Docker: container esce subito](#docker-container-esce-subito)
 
 ### Autenticazione
 - [Errore OAuth: token scaduto o non valido](#errore-oauth-token-scaduto-o-non-valido)
@@ -26,6 +27,13 @@ Guida diagnostica per risolvere i problemi più frequenti con Craft Agents OSS.
 ### Connessione & Rete
 - [WebSocket: errore di connessione al server remoto](#websocket-errore-di-connessione-al-server-remoto)
 - [Self-signed TLS certificate non accettato](#self-signed-tls-certificate-non-accettato)
+- [Proxy aziendale blocca le connessioni](#proxy-aziendale-blocca-le-connessioni)
+
+### CLI
+- [CLI: Connection timeout](#cli-connection-timeout)
+- [CLI: AUTH_FAILED](#cli-auth_failed)
+- [CLI: PROTOCOL_VERSION_UNSUPPORTED](#cli-protocol_version_unsupported)
+- [CLI: No workspace available](#cli-no-workspace-available)
 
 ### Agente & Sessioni
 - [AgentEvent Type Mismatches: proprietà sbagliate](#agentevent-type-mismatches-proprietà-sbagliate)
@@ -112,6 +120,34 @@ chmod -R 755 ~/.craft-agent/
 ```bash
 ./craft-agents -- --debug
 # Controlla i log (vedi [Log paths](#log-paths-per-os))
+```
+
+---
+
+## Docker: container esce subito
+
+**Sintomo:**
+Il container Docker si avvia e si ferma immediatamente.
+
+**Causa comune 1:** `CRAFT_SERVER_TOKEN` non impostato.
+**Soluzione:**
+```bash
+docker run -e CRAFT_SERVER_TOKEN=$(openssl rand -hex 32) ...
+```
+
+**Causa comune 2:** Volume non montato correttamente.
+**Soluzione:**
+```bash
+# Aggiungi volume persistente
+-v craft-data:/root/.craft-agent
+```
+
+**Causa comune 3:** Porta 9100 già occupata sull'host.
+**Soluzione:** Usa `CRAFT_RPC_PORT=9101` per cambiare porta.
+
+**Debug:** Controlla i log del container:
+```bash
+docker logs <container-id>
 ```
 
 ---
@@ -259,6 +295,92 @@ O setta la variabile d'ambiente:
 ```bash
 export CRAFT_TLS_CA=/path/to/cert.pem
 ```
+
+---
+
+## Proxy aziendale blocca le connessioni
+
+**Sintomo:**
+Le connessioni WebSocket non riescono in ambiente con proxy aziendale.
+
+**Soluzione 1:** Configura le variabili d'ambiente del proxy:
+```bash
+export HTTP_PROXY=http://proxy-aziendale:8080
+export HTTPS_PROXY=http://proxy-aziendale:8080
+```
+
+**Soluzione 2:** Per WebSocket, assicurati che il proxy supporti il protocollo `ws://`/`wss://`.
+
+**Soluzione 3:** Se possibile, connettiti direttamente sulla porta 9100 bypassando il proxy per quell'host.
+
+---
+
+## CLI: Connection timeout
+
+**Sintomo:**
+`Connection timeout` — la CLI non riesce a connettersi.
+
+**Cause e soluzioni:**
+1. **Server non in esecuzione** → avvia il server prima
+2. **URL sbagliato** → verifica `ws://` vs `wss://` e la porta
+3. **Firewall blocca** → apri la porta 9100
+4. **Timeout troppo basso** → aumenta con `--timeout 30000`
+5. **Server su 127.0.0.1** → deve essere `0.0.0.0` per connessioni remote
+
+---
+
+## CLI: AUTH_FAILED
+
+**Sintomo:**
+`AUTH_FAILED` — autenticazione fallita.
+
+**Soluzione:**
+```bash
+# Verifica che il token sia lo stesso del server
+echo $CRAFT_SERVER_TOKEN
+# Lato server (dev matchare)
+CRAFT_SERVER_TOKEN=$(openssl rand -hex 32)  # Regenera se necessario
+```
+
+**Cause comuni:**
+- Token digitato male
+- Token rigenerato dopo l'avvio del server
+- Spazi o caratteri speciali nel token
+
+---
+
+## CLI: PROTOCOL_VERSION_UNSUPPORTED
+
+**Sintomo:**
+`PROTOCOL_VERSION_UNSUPPORTED` — la versione del protocollo non matcha.
+
+**Causa:** CLI e server su versioni diverse.
+**Soluzione:** Aggiorna entrambi alla stessa versione.
+```bash
+# Aggiorna il repo
+cd craft-agents-oss
+git pull
+bun install
+
+# Riavvia server e CLI
+```
+
+---
+
+## CLI: No workspace available
+
+**Sintomo:**
+`No workspace available` — nessun workspace trovato.
+
+**Causa:** Workspace non ancora creato nel server.
+**Soluzione:** Crealo tramite app desktop o:
+```bash
+# Crea un workspace di default
+craft-cli workspace create --name "default"
+```
+
+**Nota:** Se non hai mai avviato l'app desktop, il workspace non esiste.
+Il primo avvio dell'app crea automaticamente un workspace.
 
 ---
 

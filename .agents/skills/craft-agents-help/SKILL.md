@@ -19,7 +19,9 @@ description: >
   "personalizzare", "cambiare", "modificare", "aggiungere", "rimuovere",
   "eliminare", "installare", "aggiornare", "build", "compilare",
   "deploy", "distribuire", "pubblicare", "condividere", "esportare",
-  "backup", "salvare", "recuperare", "ripristinare", "migrare"
+  "backup", "salvare", "recuperare", "ripristinare", "migrare",
+  "docker", "tls", "wss", "reverse proxy", "label", "etichetta",
+  "flag", "sessione", "inbox", "archivio"
 alwaysRun: false
 ---
 
@@ -44,6 +46,12 @@ Guide in `help/` directory. Source: `@craft-agents-tips`.
 | Shortcut, produttività, debug | `help/tips-and-tricks.md` |
 | Errori e soluzioni | `help/troubleshooting.md` |
 | Architettura, diagrammi | `help/architecture-overview.md` |
+| CLI, scripting, CI/CD | `help/cli-guide.md` |
+| Server, Docker, TLS | `help/server-setup.md` |
+| Sicurezza, permessi | `help/security-guide.md` |
+| Label, colori, auto-apply | `help/labels-guide.md` |
+| Sessioni, inbox, flags | `help/sessions-guide.md` |
+| Build, dev, contribuire | `help/development-guide.md` |
 | Panoramica | `help/README.md` |
 
 ## Suggerimenti Proattivi
@@ -56,3 +64,6 @@ Guide in `help/` directory. Source: `@craft-agents-tips`.
 | Errori OAuth/connessione | troubleshooting.md |
 | Architettura/codice | architecture-overview.md |
 | Shortcut | tips-and-tricks.md |
+| Docker/TLS/server | server-setup.md |
+| CLI/scripting | cli-guide.md |
+| Label/auto-apply | labels-guide.md |

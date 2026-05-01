@@ -1,22 +1,27 @@
 # Changelog
 
-## [1.1.0] — 2026-05-01
+## [2.0.0] — 2026-05-01
 
 ### Added
-- MF-1: `guide.md` per il Source `craft-agents-tips` (istruzioni per l'agente)
-- MF-1: `source-guide.md` nella root del repo per utenti esterni
-- MF-2: Diagrammi Mermaid in 3 guide (architecture, automations, OAuth flow)
-- MF-3: `llms.txt` per AI discovery del contenuto del repo
-- MF-4: Skill `craft-agents-help` migliorata con trigger words estesi e suggerimenti proattivi
-- MF-6: `scripts/search-help.sh` per ricerca full-text nelle guide
-- MF-7: Questo `CHANGELOG.md` + version headers nei file
+- MF-A: 3 nuove guide prioritarie
+  - `cli-guide.md` — Riferimento completo craft-cli (comandi, scripting, TLS, validate-server)
+  - `server-setup.md` — Docker, TLS, reverse proxy, produzione
+  - `security-guide.md` — Credenziali, permission modes, MCP env isolation
+- MF-B: Ampliamento guide esistenti
+  - `sources-guide.md`: Microsoft OAuth, Slack OAuth, multi-source, remove/disable
+  - `automations.md`: da 4 a 12+ eventi, error handling, monitoring, pattern avanzati
+  - `troubleshooting.md`: CLI errors (timeout, AUTH_FAILED, PROTOCOL_VERSION), Docker, proxy
+  - `tips-and-tricks.md`: Large Response Handling, Docker, compressione 60KB
+- MF-C: 3 guide secondarie
+  - `development-guide.md` — Build, hot reload, typecheck, contribuire
+  - `sessions-guide.md` — Organizzare inbox, flags, archivio, ricerca
+  - `labels-guide.md` — Etichette, colori, auto-apply con regex, gerarchie
 
 ### Changed
-- Skill workspace (auresys-backend): trigger words da ~30 a ~80+
-- Skill repository: allineata alla versione workspace
-- `architecture-overview.md`: sostituiti ASCII diagram con Mermaid
-- `automations.md`: aggiunto diagramma flusso eventi
-- `sources-guide.md`: aggiunto diagramma flusso OAuth
+- `help/README.md`: aggiornato indice con 14 guide
+- `README.md`: stats aggiornate
+- Skill workspace e repository: nuovi mapping per le guide aggiunte
+- `llms.txt`: aggiornato con tutte le nuove guide
 
 ## [1.0.0] — 2026-05-01
 
