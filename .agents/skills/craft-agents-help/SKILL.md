@@ -1,39 +1,58 @@
 ---
 name: craft-agents-help
-description: Sistema di help contestuale per Craft Agents OSS. Fornisce risposte a domande frequenti su installazione, configurazione, sources, skills, automazioni, troubleshooting e architettura. Attiva quando l'utente chiede "help", "aiuto", "come si fa", "guida", "documentazione", "tips", o "troubleshooting" su Craft Agents.
+description: >
+  Guida su come usare Craft Agents OSS. Attivami quando l'utente chiede come
+  si fa qualcosa con Craft Agents OSS, come si configura, o ha dubbi su
+  installazione, sources, MCP, skills, automazioni, permessi, temi, CLI,
+  server remoto, troubleshooting, o architettura.
+  Trigger: "craft agents", "craft agents oss", "help", "aiuto", "come si fa",
+  "come si usa", "come configuro", "guida", "tutorial", "non funziona",
+  "errore", "troubleshooting", "tips", "trucchi", "scorciatoia",
+  "installazione", "source", "mcp", "skill", "automazione", "scheduler",
+  "oauth", "workspace", "provider llm", "cli", "server remoto", "thin-client",
+  "architettura", "monorepo", "tip", "trick", "come collego", "come connetto",
+  "perché non", "non capisco", "spiegami", "dimmi di più", "cos'è",
+  "che cos'è", "cosa fa", "vorrei sapere", "dov'è", "dove si trova",
+  "non riesco", "fallisce", "non parte", "non si avvia", "si blocca",
+  "lento", "rallenta", "permesso", "autorizzazione", "token", "api key",
+  "chiave", "segreto", "config", "configurazione", "impostazione",
+  "personalizzare", "cambiare", "modificare", "aggiungere", "rimuovere",
+  "eliminare", "installare", "aggiornare", "build", "compilare",
+  "deploy", "distribuire", "pubblicare", "condividere", "esportare",
+  "backup", "salvare", "recuperare", "ripristinare", "migrare"
+alwaysRun: false
 ---
 
-# Craft Agents OSS — Help Skill
+# Craft Agents OSS — Help System
 
-Quando l'utente chiede aiuto su Craft Agents OSS, consulta la guida appropriata dalla directory `help/` nella root del repository.
+Guide in `help/` directory. Source: `@craft-agents-tips`.
 
-## Guide Disponibili
+## Comportamento
+1. Identifica il topic dalla richiesta
+2. Leggi solo la sezione pertinente del file
+3. Rispondi in modo conciso
+4. Suggerisci guide correlate quando pertinente
+
+## Mapping Argomento → File
 
 | Argomento | File |
 |-----------|------|
-| Guida rapida iniziale | `help/quickstart.md` |
-| Sources (MCP, API, filesystem) | `help/sources-guide.md` |
-| Skills | `help/skills-guide.md` |
-| Automazioni | `help/automations.md` |
-| Tips & Tricks | `help/tips-and-tricks.md` |
-| Troubleshooting | `help/troubleshooting.md` |
-| Architettura | `help/architecture-overview.md` |
+| Installazione, provider LLM, workspace | `help/quickstart.md` |
+| MCP, API REST, OAuth, filesystem | `help/sources-guide.md` |
+| Skill, @mention, best practices | `help/skills-guide.md` |
+| Automazioni, scheduler, governance | `help/automations.md` |
+| Shortcut, produttività, debug | `help/tips-and-tricks.md` |
+| Errori e soluzioni | `help/troubleshooting.md` |
+| Architettura, diagrammi | `help/architecture-overview.md` |
+| Panoramica | `help/README.md` |
 
-## Come Rispondere
+## Suggerimenti Proattivi
 
-1. **Identifica il topic** dalla richiesta dell'utente
-2. **Leggi il file** `help/{topic}.md` corrispondente
-3. **Rispondi** con la sezione pertinente, citando la fonte
-4. Se la domanda è generica, suggerisci l'indice di `help/README.md`
-
-## Esempi di Mapping Domanda → File
-
-| Domanda | File | Sezione |
-|---------|------|---------|
-| "Come installo Craft Agents?" | quickstart.md | Come installo Craft Agents? |
-| "Come collego Gmail?" | sources-guide.md | Come configuro Google OAuth? |
-| "Crea una skill" | skills-guide.md | Come creo una skill? |
-| "Ogni giorno alle 9" | automations.md | Come configuro un promemoria giornaliero? |
-| "Shortcut da tastiera" | tips-and-tricks.md | Keyboard Shortcuts Complete |
-| "Errore API key" | troubleshooting.md | API Key non riconosciuta |
-| "Com'è fatto dentro?" | architecture-overview.md | Com'è strutturato il monorepo |
+| Se emerge... | Suggerisci... |
+|---|---|
+| Configurazione MCP/API | sources-guide.md |
+| Creazione skill | skills-guide.md |
+| Automazioni/reminder | automations.md |
+| Errori OAuth/connessione | troubleshooting.md |
+| Architettura/codice | architecture-overview.md |
+| Shortcut | tips-and-tricks.md |

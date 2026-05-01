@@ -1,3 +1,5 @@
+<!-- v1.1.0 - last updated: 2026-05-01 -->
+
 # Architecture Overview — Come Funziona Craft Agents Dentro
 
 Panoramica architetturale per sviluppatori che vogliono capire come è strutturato Craft Agents OSS.
@@ -20,39 +22,38 @@ Panoramica architetturale per sviluppatori che vogliono capire come è struttura
 
 ## Com'è strutturato il monorepo?
 
-```
-craft-agents-oss/
-├── apps/
-│   ├── cli/                    ← Terminal client (craft-cli)
-│   ├── electron/               ← Desktop GUI (Electron + React)
-│   │   └── src/
-│   │       ├── main/           ← Electron main process
-│   │       ├── preload/        ← Context bridge (main ↔ renderer)
-│   │       └── renderer/       ← React UI (Vite + shadcn/ui)
-│   ├── viewer/                 ← Web app viewer (opzionale)
-│   └── webui/                  ← Web app UI (opzionale)
-├── packages/
-│   ├── core/                   ← Shared types/fondamentali
-│   ├── shared/                 ← Business logic principale
-│   │   └── src/
-│   │       ├── agent/          ← CraftAgent, permissions
-│   │       ├── auth/           ← OAuth, token management
-│   │       ├── config/         ← Storage, preferences, themes
-│   │       ├── credentials/    ← AES-256-GCM encrypted storage
-│   │       ├── sessions/       ← Session persistence (JSONL)
-│   │       ├── sources/        ← MCP, API, local sources
-│   │       └── statuses/       ← Dynamic status system
-│   ├── server/                 ← Headless server entry point
-│   ├── server-core/            ← Server logic
-│   ├── pi-agent-server/        ← Pi SDK agent server
-│   ├── session-mcp-server/     ← Session MCP server
-│   ├── session-tools-core/     ← Session tools implementation
-│   ├── messaging-gateway/      ← Messaging gateway
-│   ├── messaging-whatsapp-worker/ ← WhatsApp integration
-│   └── ui/                     ← UI shared components
-├── docs/
-│   └── cli.md                  ← CLI reference
-└── scripts/                    ← Build, dev, install scripts
+```mermaid
+flowchart TB
+    subgraph apps["apps/"]
+        CLI["cli/ — Terminal client"]
+        Electron["electron/ — Desktop GUI"]
+        Viewer["viewer/ — Web viewer"]
+        WebUI["webui/ — Web UI"]
+    end
+    subgraph packages["packages/"]
+        Core["core/ — Tipi fondamentali"]
+        Shared["shared/ — Business logic"]
+        Server["server/ — Headless server"]
+        PiAgent["pi-agent-server/ — Pi SDK"]
+        SessionMCP["session-mcp-server/"]
+        UI["ui/ — UI components"]
+    end
+    subgraph shared_src["shared/src/"]
+        Agent["agent/ — CraftAgent, permissions"]
+        Auth["auth/ — OAuth, tokens"]
+        Config["config/ — Storage, themes"]
+        Creds["credentials/ — AES-256-GCM"]
+        Sessions["sessions/ — JSONL persistence"]
+        Sources["sources/ — MCP, API, local"]
+        Statuses["statuses/ — Workflow states"]
+    end
+    Core --> Shared
+    Shared --> Agent & Auth & Config & Creds & Sessions & Sources & Statuses
+    CLI --> Server
+    Electron --> Server
+    Server --> Shared
+    PiAgent -.->|Pi SDK| Shared
+    SessionMCP --> Sessions
 ```
 
 ### Electron App Architecture
@@ -111,23 +112,20 @@ craft-agents-oss/
 
 Il **session loop** è il cuore dell'interazione con l'agente:
 
-```
-1. User sends message
-       │
-2. CraftAgent.createSession(workspace, model)
-       │
-3. Session loop inizia
-       │
-4. API call → Claude genera risposta
-       │
-5. ├── text_delta → stream al renderer (UI aggiornata)
-   ├── tool_start → mostra tool in esecuzione
-   ├── tool_use  → esegue tool (MCP, bash, file...)
-   └── tool_result → risultato torna al loop (step 4)
-       │
-6. Loop continua finché Claude non smette di chiamare tool
-       │
-7. Risposta completa → salvata su disco (JSONL)
+```mermaid
+flowchart TD
+    U([User]) -->|send message| CA[CraftAgent]
+    CA -->|createSession| Loop
+    subgraph Loop[Session Loop]
+        direction TB
+        A[API Call to LLM]
+        A -->|text_delta| Stream[Stream to Renderer UI]
+        A -->|tool_start| Show[Show tool in UI]
+        A -->|tool_use| TE[Tool Executor]
+        TE -->|MCP / Bash / File| TR[tool_result]
+        TR --> A
+    end
+    Loop -->|response complete| Save[Save Session to JSONL]
 ```
 
 **Punti chiave:**
@@ -212,15 +210,20 @@ Craft Agents può funzionare in due modalità:
 Tutto gira sulla tua macchina: UI + session loop + tool execution.
 
 ### Thin-Client (server remoto)
-```
-┌──────────────────┐     WebSocket      ┌──────────────────┐
-│  Desktop App      │ ◄──────────────►  │  Headless Server  │
-│  (UI only)        │                    │  (VPS / Docker)   │
-│                   │    wss://host:9100 │                   │
-│  React UI         │                    │  Session loop     │
-│  Input/Output     │                    │  Tool execution   │
-│  Streaming        │                    │  LLM calls        │
-└──────────────────┘                    └──────────────────┘
+
+```mermaid
+flowchart LR
+    subgraph Client["Desktop App — UI Only"]
+        React[React UI / InputOutput]
+    end
+    subgraph Server["Headless Server — VPS/Docker"]
+        SM[Session Manager]
+        TE[Tool Executor]
+        LLM[LLM Provider Caller]
+    end
+    React <-->|WebSocket wss://host:9100| SM
+    SM <-->|RPC calls| TE
+    SM <-->|API calls| LLM
 ```
 
 **Setup:**

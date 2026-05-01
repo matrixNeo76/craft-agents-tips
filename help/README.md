@@ -1,3 +1,5 @@
+<!-- v1.1.0 - last updated: 2026-05-01 -->
+
 # Craft Agents OSS — Sistema di Help
 
 Benvenuto nel sistema di help contestuale per **Craft Agents OSS**. Questo sistema risponde alle domande frequenti su come installare, configurare, estendere e risolvere problemi con Craft Agents.

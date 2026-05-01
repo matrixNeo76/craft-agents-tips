@@ -1,3 +1,5 @@
+<!-- v1.0.0 - last updated: 2026-05-01 -->
+
 # Quickstart — Primi Passi con Craft Agents
 
 Guida rapida per installare, configurare e fare la prima sessione con Craft Agents OSS.

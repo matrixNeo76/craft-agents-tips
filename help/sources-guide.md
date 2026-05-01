@@ -1,3 +1,5 @@
+<!-- v1.1.0 - last updated: 2026-05-01 -->
+
 # Sources Guide — Connettere il Mondo Esterno
 
 Guida completa per connettere MCP server, API REST e filesystem locali a Craft Agents.
@@ -224,13 +226,25 @@ L'agente troverà la configurazione esistente e la importerà automaticamente.
 
 ## Come funziona l'autenticazione OAuth?
 
-Craft Agents usa OAuth 2.0 + PKCE per l'autenticazione:
-1. Apri un browser per il login
-2. Autorizzi l'app
-3. Il token viene scambiato e salvato **crittografato** su disco
-4. Il token viene usato per le chiamate API successive
+Craft Agents usa **OAuth 2.0 + PKCE** per l'autenticazione:
+
+```mermaid
+flowchart TD
+    U[User] -->|1. Click Connect| AG[Agente]
+    AG -->|2. Apre browser| G[Google / Slack / Microsoft]
+    G -->|3. Login page| U
+    U -->|4. Autorizza| G
+    G -->|5. Authorization code| AG
+    AG -->|6. Scambia con token| G
+    G -->|7. Access + Refresh token| AG
+    AG -->|8. Salva crittografato| CRED[credentials.enc AES-256-GCM]
+    AG -->|9. Usa token per API| API[Gmail / Slack / ...]
+    API -->|10. Dati| AG
+```
 
 **Refresh automatico**: i token OAuth vengono refreshati automaticamente quando scadono.
+
+**Sicurezza**: i token non sono mai in chiaro su disco — solo il file `credentials.enc` cifrato.
 
 ---
 

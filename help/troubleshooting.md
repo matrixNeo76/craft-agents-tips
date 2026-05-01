@@ -1,3 +1,5 @@
+<!-- v1.0.0 - last updated: 2026-05-01 -->
+
 # Troubleshooting — Problemi Comuni e Soluzioni
 
 Guida diagnostica per risolvere i problemi più frequenti con Craft Agents OSS.

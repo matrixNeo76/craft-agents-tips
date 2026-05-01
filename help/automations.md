@@ -1,3 +1,5 @@
+<!-- v1.1.0 - last updated: 2026-05-01 -->
+
 # Automations Guide — Eventi, Scheduler e Workflow
 
 Guida per creare automazioni event-driven in Craft Agents.
@@ -19,7 +21,20 @@ Guida per creare automazioni event-driven in Craft Agents.
 
 ## Cosa sono le automazioni?
 
-Le **automazioni** permettono di eseguire azioni automatiche in risposta a eventi. Quando un evento si verifica (es. un label viene aggiunto, uno scheduler ticka), Craft Agents crea una nuova sessione che esegue il prompt configurato.
+Le **automazioni** permettono di eseguire azioni automatiche in risposta a eventi.
+
+```mermaid
+flowchart LR
+    E[Evento] -->|SchedulerTick\ncron match| C{Check Config}
+    E -->|LabelAdd\nregex match| M{Matcher Match?}
+    E -->|SessionStart| A[Auto Action]
+    M -->|Sì| P[Esegui Prompt]
+    M -->|No| X[Ignora]
+    C -->|Schedulato| P
+    P --> CS[Nuova Sessione Agente]
+    CS --> AG[Esegue azione con @mentions]
+    AG --> RS[Risultato salvato]
+``` Quando un evento si verifica (es. un label viene aggiunto, uno scheduler ticka), Craft Agents crea una nuova sessione che esegue il prompt configurato.
 
 **Casistiche d'uso:**
 - "Ogni mattina alle 9, controlla le nuove issue su GitHub"

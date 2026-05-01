@@ -1,3 +1,5 @@
+<!-- v1.0.0 - last updated: 2026-05-01 -->
+
 # Tips & Tricks — Scorciatoie, Produttività, "Did You Know"
 
 Raccolta di consigli pratici per usare Craft Agents al massimo.

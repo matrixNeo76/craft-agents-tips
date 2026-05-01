@@ -1,0 +1,23 @@
+# Craft Agents Tips
+
+> Guide, tips, troubleshooting e architecture overview per Craft Agents OSS.
+> Repo: https://github.com/matrixNeo76/craft-agents-tips
+
+## Docs
+
+- [Quickstart](help/quickstart.md): Installazione one-line, provider LLM (Anthropic, Google, OpenAI, Copilot), workspace, prima sessione
+- [Sources Guide](help/sources-guide.md): Connettere MCP server (pubblico/locale), API REST (Gmail, Calendar, Slack), Google OAuth, filesystem locale (Obsidian, git repo), variabili d'ambiente filtrate
+- [Skills Guide](help/skills-guide.md): Creare skill custom, @mention, import da Claude Code, best practices, differenza tra skill e automazione
+- [Automations Guide](help/automations.md): SchedulerTick (cron), LabelAdd, LabelRemove, SessionStatusChange, PreToolUse/PostToolUse per governance, esempi JSON completi, variabili $CRAFT_LABEL/$CRAFT_SESSION_ID
+- [Tips & Tricks](help/tips-and-tricks.md): Keyboard shortcuts (Cmd+N, Cmd+/, Shift+Tab), permission modes (Explore/Ask/Auto), deep linking (craftagents://), multi-file diff, background tasks, theme system, debug mode, log paths per OS
+- [Troubleshooting](help/troubleshooting.md): SDK path resolution error, OAuth scaduto, MCP locale non connette, env var filtrate, WebSocket/TLS errors, AgentEvent type mismatches, esbuild failure
+- [Architecture Overview](help/architecture-overview.md): Struttura monorepo (apps/, packages/), session loop, Claude Agent SDK vs Pi SDK, permessi, crittografia AES-256-GCM, thin-client mode (WebSocket RPC), docs system built-in
+
+## Source Guide
+
+La `source-guide.md` contiene istruzioni per integrare il repo come Source in Craft Agents.
+
+## Stats
+
+- 8 guide, 103 domande, 69 esempi con codice
+- Licenza: Apache 2.0

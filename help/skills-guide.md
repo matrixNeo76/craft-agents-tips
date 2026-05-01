@@ -1,3 +1,5 @@
+<!-- v1.0.0 - last updated: 2026-05-01 -->
+
 # Skills Guide — Estendere l'Agente
 
 Guida per creare, importare e gestire skills in Craft Agents.
